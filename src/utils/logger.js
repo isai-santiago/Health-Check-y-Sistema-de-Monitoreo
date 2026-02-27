@@ -26,8 +26,13 @@ const productionFormat = winston.format.combine(
   winston.format.json()
 );
 
+// 1. SOLO define y crea la carpeta de logs si NO estás en producción
 const logDir = path.join(process.cwd(), "logs");
-if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+if (process.env.NODE_ENV !== "production") {
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
+}
 
 const transports = [
   new winston.transports.Console({
@@ -36,10 +41,23 @@ const transports = [
   }),
 ];
 
-if (process.env.NODE_ENV === "production") {
+// 2. SOLO agrega transporte de archivos si NO estás en Vercel
+// Nota: Vercel establece NODE_ENV como 'production' automáticamente
+if (process.env.NODE_ENV !== "production") {
   transports.push(
-    new winston.transports.File({ filename: path.join(logDir, "error.log"), level: "error", format: productionFormat, maxsize: 5242880, maxFiles: 5 }),
-    new winston.transports.File({ filename: path.join(logDir, "combined.log"), format: productionFormat, maxsize: 5242880, maxFiles: 5 })
+    new winston.transports.File({ 
+      filename: path.join(logDir, "error.log"), 
+      level: "error", 
+      format: developmentFormat, // Usamos developmentFormat para que sea legible
+      maxsize: 5242880, 
+      maxFiles: 5 
+    }),
+    new winston.transports.File({ 
+      filename: path.join(logDir, "combined.log"), 
+      format: developmentFormat,
+      maxsize: 5242880, 
+      maxFiles: 5 
+    })
   );
 }
 
@@ -63,4 +81,5 @@ export class Logger {
   static logRequest(req, res, duration) {
     this.http(`${req.method} ${req.url}`, { requestId: req.requestId, method: req.method, url: req.url, statusCode: res.statusCode, ip: req.ip, duration, timestamp: new Date().toISOString() });
   }
+
 }
