@@ -4,22 +4,21 @@ import 'dotenv/config';
 
 const PORT = process.env.PORT || 3000;
 
-const server = app.listen(PORT, () => {
-  Logger.info(`🚀 Servidor ejecutándose en el puerto ${PORT}`);
-  Logger.info(`Health check disponible en: http://localhost:${PORT}/health/detailed`);
-});
-
-// Graceful shutdown para Kubernetes/Docker
-const gracefulShutdown = () => {
-  Logger.info("Señal de apagado recibida. Cerrando servidor HTTP...");
-  server.close(() => {
-    Logger.info("Servidor HTTP cerrado exitosamente.");
-    process.exit(0);
+// SOLO arranca el servidor manualmente si NO estás en Vercel (Producción)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    Logger.info(`🚀 Servidor ejecutándose localmente en el puerto ${PORT}`);
   });
-};
 
-process.on("SIGTERM", gracefulShutdown);
+  // El Graceful shutdown solo tiene sentido en servidores dedicados
+  const gracefulShutdown = () => {
+    Logger.info("Cerrando servidor...");
+    process.exit(0);
+  };
 
-process.on("SIGINT", gracefulShutdown);
+  process.on("SIGTERM", gracefulShutdown);
+  process.on("SIGINT", gracefulShutdown);
+}
 
+// OBLIGATORIO para Vercel
 export default app;
