@@ -1,4 +1,4 @@
-# 🏥 API Health Check & Monitoring System Pro (Vitalis)
+# 🏥 API Health Check & Monitoring System Pro
 
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
@@ -25,29 +25,29 @@ Un sistema de monitoreo y health check robusto y listo para producción, diseña
 Sigue estos pasos para correr el proyecto en tu entorno local:
 
 ### 1. Clonar el repositorio
-\`\`\`bash
-git clone https://github.com/tu-usuario/tu-repositorio.git
+```bash
+git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
 cd tu-repositorio
-\`\`\`
+```
 
 ### 2. Instalar dependencias
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 ### 3. Variables de Entorno
-Crea un archivo \`.env\` en la raíz del proyecto y agrega tu Webhook de Discord (opcional):
-\`\`\`env
+Crea un archivo `.env` en la raíz del proyecto y agrega tu Webhook de Discord (opcional):
+```env
 PORT=3000
 NODE_ENV=development
-DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
-\`\`\`
+DISCORD_WEBHOOK_URL=[https://discord.com/api/webhooks/](https://discord.com/api/webhooks/)...
+```
 
 ### 4. Iniciar el servidor (Modo Desarrollo)
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
-El servidor iniciará en \`http://localhost:3000\`.
+```
+El servidor iniciará en `http://localhost:3000`.
 
 ---
 
@@ -55,13 +55,13 @@ El servidor iniciará en \`http://localhost:3000\`.
 
 El sistema expone varias rutas para que balanceadores de carga o administradores puedan consultar el estado.
 
-### 🟢 1. Basic Health Check (\`/health\`)
+### 🟢 1. Basic Health Check (`/health`)
 Comprobación ligera ideal para saber si el proceso de Node.js está vivo (Liveness Probe).
 
-**Petición:** \`GET /health\`
+**Petición:** `GET /health`
 
 **Respuesta (200 OK):**
-\`\`\`json
+```json
 {
   "status": "alive",
   "timestamp": "2026-02-27T10:00:00.000Z",
@@ -69,15 +69,15 @@ Comprobación ligera ideal para saber si el proceso de Node.js está vivo (Liven
   "service": "indaptados-api",
   "environment": "development"
 }
-\`\`\`
+```
 
-### 🔵 2. Detailed Health Check (\`/health/detailed\`)
+### 🔵 2. Detailed Health Check (`/health/detailed`)
 Comprobación profunda. Evalúa CPU, RAM, Disco y servicios dependientes simulados (Base de Datos, Redis).
 
-**Petición:** \`GET /health/detailed\`
+**Petición:** `GET /health/detailed`
 
 **Respuesta (200 OK):**
-\`\`\`json
+```json
 {
   "status": "healthy",
   "timestamp": "2026-02-27T10:05:00.000Z",
@@ -108,14 +108,14 @@ Comprobación profunda. Evalúa CPU, RAM, Disco y servicios dependientes simulad
     }
   ]
 }
-\`\`\`
+```
 
 ---
 
 ## 🖥️ Acceso al Dashboard
 
 Puedes visualizar todas las métricas de forma gráfica accediendo desde tu navegador a:
-👉 **\`http://localhost:3000/dashboard\`**
+👉 **`http://localhost:3000/dashboard`**
 
 Desde ahí podrás:
 1. Ver el uso de RAM y CPU en una gráfica en vivo.
@@ -128,8 +128,6 @@ Desde ahí podrás:
 
 El proyecto cuenta con una suite completa para garantizar que la API es estable y responde en menos de 100ms. Para ejecutar los tests:
 
-\`\`\`bash
+```bash
 npm run test
-\`\`\`
-
-**Resultados esperados:** Validación de middlewares, códigos HTTP (200/404/503), y formato correcto del JSON de respuesta.
+```
